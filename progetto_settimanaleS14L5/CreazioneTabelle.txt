@@ -1,0 +1,30 @@
+CREATE TABLE ANAGRAFICA (
+    IDanagrafica INT PRIMARY KEY IDENTITY,
+    Cognome VARCHAR(50) NOT NULL,
+    Nome VARCHAR(50) NOT NULL,
+    Indirizzo VARCHAR(100),
+    Città VARCHAR(50),
+    CAP VARCHAR(5) CONSTRAINT CK_CAP CHECK (ISNUMERIC(CAP) = 1),
+    CodiceFiscale VARCHAR(16) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE TIPO_VIOLAZIONE (
+    IDviolazione INT PRIMARY KEY IDENTITY,
+    descrizione VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE VERBALE (
+    IDverbale INT PRIMARY KEY IDENTITY,
+    DataViolazione DATE NOT NULL,
+    IndirizzoViolazione VARCHAR(100) NOT NULL,
+    Nominativo_Agente VARCHAR(100),
+    DataTrascrizioneVerbale DATE,
+    Importo MONEY NOT NULL,
+    DecurtamentoPunti INT NOT NULL,
+    IDanagrafica INT NOT NULL,
+    IDviolazione INT NOT NULL,
+    FOREIGN KEY (IDanagrafica) REFERENCES ANAGRAFICA(IDanagrafica),
+    FOREIGN KEY (IDviolazione) REFERENCES TIPO_VIOLAZIONE(IDviolazione)
+);
+

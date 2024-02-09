@@ -1,0 +1,39 @@
+CREATE PROCEDURE ContravvenzioniPerAnno
+    @Anno INT
+AS
+BEGIN
+    SELECT VERBALE.IDverbale, VERBALE.DataViolazione, ANAGRAFICA.Cognome, ANAGRAFICA.Nome, VERBALE.Importo, VERBALE.DecurtamentoPunti
+    FROM VERBALE
+    INNER JOIN ANAGRAFICA ON VERBALE.IDanagrafica = ANAGRAFICA.IDanagrafica
+    WHERE YEAR(VERBALE.DataViolazione) = @Anno;
+END;
+
+EXEC ContravvenzioniPerAnno @Anno = 2010;
+
+
+
+
+CREATE PROCEDURE PuntiDecurtatiPerData
+    @Data DATE
+AS
+BEGIN
+    SELECT SUM(DecurtamentoPunti) AS PuntiDecurtati
+    FROM VERBALE
+    WHERE DataViolazione = @Data;
+END;
+
+EXEC PuntiDecurtatiPerData @Data = '2005-03-15';
+
+
+
+CREATE PROCEDURE EliminaVerbale
+    @IDverbale INT
+AS
+BEGIN
+    DELETE FROM VERBALE
+    WHERE IDverbale = @IDverbale;
+END;
+
+EXEC EliminaVerbale @IDverbale = 1;
+
+
